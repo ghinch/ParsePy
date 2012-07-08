@@ -11,5 +11,5 @@ setup(
     author='pktck',
     author_email="parsepy@paulkastner.com",
     packages=find_packages(),
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'requests'],
 )
