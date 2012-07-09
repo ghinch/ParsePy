@@ -62,6 +62,8 @@ class ParseBase(object):
 
 
 class ParseObject(ParseBase):
+    _class_type = 'classes'
+
     def __init__(self, class_name, attrs_dict=None):
         self._class_name = class_name
         self._object_id = None
@@ -90,7 +92,7 @@ class ParseObject(ParseBase):
         # URL: /1/classes/<className>/<objectId>
         # HTTP Verb: DELETE
 
-        uri = '%s/%s' % (self._class_name, self._object_id)
+        uri = '/%s/%s/%s' % (self._class_type, self._class_name, self._object_id)
 
         self._executeCall(uri, 'DELETE')
 
@@ -162,7 +164,7 @@ class ParseObject(ParseBase):
         # URL: /1/classes/<className>
         # HTTP Verb: POST
 
-        uri = '%s' % self._class_name
+        uri = '/%s/%s' % (self._class_type, self._class_name)
 
         data = self._getJSONProperties()
 
@@ -175,7 +177,7 @@ class ParseObject(ParseBase):
         # URL: /1/classes/<className>/<objectId>
         # HTTP Verb: PUT
 
-        uri = '%s/%s' % (self._class_name, self._object_id)
+        uri = '/%s/%s/%s' % (self._class_type, self._class_name, self._object_id)
 
         data = self._getJSONProperties()
 
@@ -245,7 +247,7 @@ class ParseQuery(ParseBase):
 
         if self._object_id:
             options = {}
-            uri = '/%s/%s' % (self._class_name, self._object_id)
+            uri = '/%s/%s/%s' % (self._class_type, self._class_name, self._object_id)
         else:
             options = dict(self._options)  # make a local copy
             if self._where:
@@ -258,7 +260,7 @@ class ParseQuery(ParseBase):
                 where = json.dumps(self._where)
                 options.update({'where': where})
 
-            uri = '/%s' % (self._class_name)
+            uri = '/%s/%s' % (self._class_type, self._class_name)
 
         response_dict = self._executeCall(uri, 'GET', options)
 
